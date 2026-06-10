@@ -3,7 +3,7 @@
 A backend service for managing **articles**, built with NestJS + Prisma + PostgreSQL.
 It ships with Docker so you can run the app **and** its database with a single command.
 
-**Language / 语言**: [English](#english) · [中文（小白版）](#中文小白版)
+**Language / 语言**: [English](#english) · [中文](#中文)
 
 ---
 
@@ -65,11 +65,11 @@ Key fields in `.env`:
 
 The `/upload/*` endpoints save files to one of three backends, chosen by `STORAGE_TYPE`:
 
-| `STORAGE_TYPE` | Where files go | Required config |
-| -------------- | -------------- | --------------- |
-| `local` | Local disk — **no cloud account needed** | `FILES_STORE`, `ASSET_BASE_URL` |
-| `aws` | AWS S3 + CloudFront | `AWS_*` |
-| `gcs` | Google Cloud Storage | `GOOGLE_CLOUD_*` |
+| `STORAGE_TYPE` | Where files go                           | Required config                 |
+| -------------- | ---------------------------------------- | ------------------------------- |
+| `local`        | Local disk — **no cloud account needed** | `FILES_STORE`, `ASSET_BASE_URL` |
+| `aws`          | AWS S3 + CloudFront                      | `AWS_*`                         |
+| `gcs`          | Google Cloud Storage                     | `GOOGLE_CLOUD_*`                |
 
 **No AWS or GCS? Use local storage.** In `.env` set:
 
@@ -79,13 +79,13 @@ FILES_STORE=files                      # static asset location: folder where upl
 ASSET_BASE_URL=http://localhost:3030   # URL prefix returned to clients to reach the file
 ```
 
-- `FILES_STORE` — the static asset storage location. Uploaded images/PDFs are written to this folder inside the app (e.g. `files/`). You can leave the `AWS_*` and `GOOGLE_*` fields empty.
-- `ASSET_BASE_URL` — the public URL prefix prepended to a stored file's path and returned in the API response.
+-   `FILES_STORE` — the static asset storage location. Uploaded images/PDFs are written to this folder inside the app (e.g. `files/`). You can leave the `AWS_*` and `GOOGLE_*` fields empty.
+-   `ASSET_BASE_URL` — the public URL prefix prepended to a stored file's path and returned in the API response.
 
 > ⚠️ **Two things to know about local storage:**
 >
 > 1. **Persistence in Docker** — the folder lives inside the container and is wiped on rebuild. `docker-compose.yml` already bind-mounts `./${FILES_STORE}` to your host so the files survive. The folder (e.g. `./files`) is created automatically on first upload.
-> 2. **Serving the files** — this service *stores* files but does not *serve* them over HTTP. To actually open an uploaded image at `ASSET_BASE_URL`, put a static file server / reverse proxy (e.g. Nginx) in front of the `FILES_STORE` folder. With `aws` / `gcs`, the cloud provider serves the files for you.
+> 2. **Serving the files** — this service _stores_ files but does not _serve_ them over HTTP. To actually open an uploaded image at `ASSET_BASE_URL`, put a static file server / reverse proxy (e.g. Nginx) in front of the `FILES_STORE` folder. With `aws` / `gcs`, the cloud provider serves the files for you.
 
 #### 3. Start
 
@@ -235,7 +235,7 @@ cp env.example .env
 
 用任意文本编辑器打开 `.env`，重点关注这几项：
 
-| 配置项              | 作用         | 小白怎么填                                        |
+| 配置项              | 作用         | 怎么填                                            |
 | ------------------- | ------------ | ------------------------------------------------- |
 | `POSTGRES_USER`     | 数据库用户名 | 保持默认 `admin` 即可                             |
 | `POSTGRES_PASSWORD` | 数据库密码   | **改成你自己的密码**，比如 `mypassword123`        |
@@ -249,11 +249,11 @@ cp env.example .env
 
 `/upload/*` 上传接口会把文件保存到三种存储之一，由 `STORAGE_TYPE` 决定：
 
-| `STORAGE_TYPE` | 文件存到哪 | 需要的配置 |
-| -------------- | ---------- | ---------- |
-| `local` | 本地磁盘，**无需任何云账号** | `FILES_STORE`、`ASSET_BASE_URL` |
-| `aws` | AWS S3 + CloudFront | `AWS_*` |
-| `gcs` | 谷歌云存储 | `GOOGLE_CLOUD_*` |
+| `STORAGE_TYPE` | 文件存到哪                   | 需要的配置                      |
+| -------------- | ---------------------------- | ------------------------------- |
+| `local`        | 本地磁盘，**无需任何云账号** | `FILES_STORE`、`ASSET_BASE_URL` |
+| `aws`          | AWS S3 + CloudFront          | `AWS_*`                         |
+| `gcs`          | 谷歌云存储                   | `GOOGLE_CLOUD_*`                |
 
 **没有 AWS 或 GCS 存储服务？把上传的图片资源保存到本地即可。** 在 `.env` 里设置：
 
@@ -263,8 +263,8 @@ FILES_STORE=files                      # 静态资源存储位置：上传文件
 ASSET_BASE_URL=http://localhost:3030   # 返回给前端、用于访问文件的 URL 前缀
 ```
 
-- `FILES_STORE` —— **静态资源存储位置**。上传的图片/PDF 会写到应用里的这个文件夹（例如 `files/`）。此时 `AWS_*`、`GOOGLE_*` 都可以留空。
-- `ASSET_BASE_URL` —— 文件保存后，接口返回的访问地址会以它为前缀拼接出完整 URL。
+-   `FILES_STORE` —— **静态资源存储位置**。上传的图片/PDF 会写到应用里的这个文件夹（例如 `files/`）。此时 `AWS_*`、`GOOGLE_*` 都可以留空。
+-   `ASSET_BASE_URL` —— 文件保存后，接口返回的访问地址会以它为前缀拼接出完整 URL。
 
 > ⚠️ **本地存储要注意两点：**
 >
